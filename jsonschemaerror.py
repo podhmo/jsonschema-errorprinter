@@ -52,8 +52,13 @@ def generate_validation_error_report(
 
     if json_object is None:
         return "'json_object' cannot be None."
+
     if not e.path:
-        return str(e)
+        if e.schema_path and e.validator_value:
+            return "Toplevel:\n\t{}".format(e.message)
+        else:
+            return str(e)
+
     marker = "3fb539deef7c4e2991f265c0a982f5ea"
 
     # Find the object that is erroring, and replace it with the marker.
